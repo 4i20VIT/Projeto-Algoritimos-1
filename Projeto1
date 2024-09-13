@@ -1,0 +1,117 @@
+	#include <stdio.h>
+	#include <stdlib.h>
+	
+	int main() {
+	
+	    typedef struct {
+	        char nome[50];
+	        float valorCompra;
+	        float valorVenda;
+	        int numeroVendas;
+	        float lucro;
+	    } produto;
+	
+	    int MaiorVendas = 0;
+	    int indiceMenorVendas = 0;
+	    int n;
+	    int opcao;
+	    float somaLucro = 0.0;
+	    float somaCompra = 0.0;
+	
+	    // Define número máximo de produtos
+	    printf("Digite o numero de produtos: ");
+	    scanf("%d", &n);
+	
+	    produto produtos[n];
+	
+	    //menu
+	    do{
+	        system("cls");
+	
+	        printf("\nMenu:\n");
+	        printf("1. Cadastrar produtos\n");
+	        printf("2. Calcular lucro dos produtos\n");
+	        printf("3. Mostrar produto com maior numero de vendas\n");
+	        printf("4. Mostrar produto com menor numero de vendas\n");
+	        printf("5. Ordenar e exibir produtos por lucro\n");
+	        printf("0. Sair\n");
+	        printf("Escolha uma opcao: ");
+	        scanf("%d", &opcao);
+	
+	        switch(opcao){
+	            case 1:
+	                // Entrada de produtos
+	                for (int i = 0; i < n; i++) {
+	                    printf("Digite o nome do produto %d: ", i + 1);
+	                    scanf("%s", produtos[i].nome);
+	                    printf("Digite o valor de compra do produto %d: ", i + 1);
+	                    scanf("%f", &produtos[i].valorCompra);
+	                    printf("Digite o valor de venda do produto %d: ", i + 1);
+	                    scanf("%f", &produtos[i].valorVenda);
+	                    printf("Digite o número de vendas do produto %d: ", i + 1);
+	                    scanf("%d", &produtos[i].numeroVendas);
+	                }
+	            break;
+	            case 2:
+	                // Calcula lucro
+	               for (int i = 0; i < n; i++) {
+	                    produtos[i].lucro = (produtos[i].valorVenda - produtos[i].valorCompra) * produtos[i].numeroVendas;
+	                    somaLucro += produtos[i].lucro;
+	                    somaCompra += produtos[i].valorCompra;
+	                }
+	                printf("Valor total do estoque: %f",somaCompra);
+	                printf("\nLucro atual: %f",somaLucro);
+	            break;
+	            case 3:
+	                //calcula produto com maior numero de vendas
+	               for (int i = 1; i < n; i++) {
+	                    if (produtos[i].numeroVendas > produtos[MaiorVendas].numeroVendas) {
+	                        MaiorVendas = i;
+	                    }
+	                }
+	                printf("\nProduto com maior numero de vendas: %s - Vendas: %d\n", produtos[MaiorVendas].nome, produtos[MaiorVendas].numeroVendas);
+	            break;
+	            case 4:
+	                // Menor numero de vendas
+	                for (int i = 1; i < n; i++) {
+	                    if (produtos[i].numeroVendas < produtos[indiceMenorVendas].numeroVendas) {
+	                        indiceMenorVendas = i;
+	                    }
+	                }
+	                printf("\nProduto com menor numero de vendas: %s - Vendas: %d\n", produtos[indiceMenorVendas].nome, produtos[indiceMenorVendas].numeroVendas);
+	            break;
+	            case 5:
+	                // Ordena produtos por lucro
+	                for (int i = 0; i < n - 1; i++) {
+	                    for (int j = i + 1; j < n; j++) {
+	                        if (produtos[i].lucro < produtos[j].lucro) {
+	                            produto temp = produtos[i];
+	                            produtos[i] = produtos[j];
+	                            produtos[j] = temp;
+	                        }
+	                    }
+	                }
+	                printf("\nProdutos ordenados por lucro:\n");
+	                for (int i = 0; i < n; i++) {
+	                    printf("%s - Lucro: %.2f\n", produtos[i].nome, produtos[i].lucro);
+	                }
+	            break;
+	            case 0:
+	                printf("Saindo do programa.\n");
+	            break;
+	
+	
+	            default:
+	                printf("Opcao invalida! Tente novamente.\n");
+	        }
+	
+	            if (opcao != 0) {
+	            printf("\nPressione Enter para voltar ao menu...");
+	            getchar(); // Para capturar o newline deixado pelo scanf anterior
+	            getchar(); // Para esperar o usuário pressionar Enter
+	        }
+	    }while(opcao != 0);
+	
+	    return 0;
+	}
+	
